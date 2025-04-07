@@ -1,53 +1,51 @@
 import java.util.Scanner;
 
-
 public class SafeInput {
-    public static String getNonZeroLenString(Scanner pipe, String prompt) {
+    private static final Scanner in = new Scanner(System.in);  // Shared Scanner
+
+    public static String getNonZeroLenString(String prompt) {
         String retString = "";
         do {
             System.out.print("\n" + prompt + ": ");
-            retString = pipe.nextLine().trim();
-
-
+            retString = in.nextLine().trim();
         } while (retString.length() == 0);
         return retString;
     }
 
-    public static int getInt(Scanner pipe, String prompt) {
+    public static int getInt(String prompt) {
         int value;
         while (true) {
             System.out.print("\n" + prompt + ": ");
-            if (pipe.hasNextInt()) {
-                value = pipe.nextInt();
-
-                pipe.nextLine();
+            if (in.hasNextInt()) {
+                value = in.nextInt();
+                in.nextLine();
                 return value;
             } else {
                 System.out.println("Invalid input. Please enter an integer.");
-                pipe.next();
+                in.next();
             }
         }
     }
 
-    public static double getDouble(Scanner pipe, String prompt) {
+    public static double getDouble(String prompt) {
         double value;
         while (true) {
             System.out.print("\n" + prompt + ": ");
-            if (pipe.hasNextDouble()) {
-                value = pipe.nextDouble();
-                pipe.nextLine();
+            if (in.hasNextDouble()) {
+                value = in.nextDouble();
+                in.nextLine();
                 return value;
             } else {
                 System.out.println("Invalid input. Please enter a double.");
-                pipe.next();
+                in.next();
             }
         }
     }
 
-    public static int getRangedInt(Scanner pipe, String prompt, int low, int high) {
+    public static int getRangedInt(String prompt, int low, int high) {
         int value;
         do {
-            value = getInt(pipe, prompt + " [" + low + " - " + high + "]");
+            value = getInt(prompt + " [" + low + " - " + high + "]");
             if (value < low || value > high) {
                 System.out.println("Input out of range. Try again.");
             }
@@ -55,10 +53,10 @@ public class SafeInput {
         return value;
     }
 
-    public static double getRangedDouble(Scanner pipe, String prompt, double low, double high) {
+    public static double getRangedDouble(String prompt, double low, double high) {
         double value;
         do {
-            value = getDouble(pipe, prompt + " [" + low + " - " + high + "]");
+            value = getDouble(prompt + " [" + low + " - " + high + "]");
             if (value < low || value > high) {
                 System.out.println("Input out of range. Try again.");
             }
@@ -66,31 +64,30 @@ public class SafeInput {
         return value;
     }
 
-    public static boolean getYNConfirm(Scanner pipe, String prompt) {
+    public static boolean getYNConfirm(String prompt) {
         String response;
         do {
             System.out.print("\n" + prompt + " [Y/N]: ");
-
-            response = pipe.nextLine().trim().toLowerCase();
+            response = in.nextLine().trim().toLowerCase();
 
             if (response.equals("y")) return true;
             if (response.equals("n")) return false;
-
 
             System.out.println("Invalid input. Please enter Y or N.");
         } while (true);
     }
 
-    public static String getRegExString(Scanner pipe, String prompt, String regEx) {
+    public static String getRegExString(String prompt, String regEx) {
         String response;
         do {
             System.out.print("\n" + prompt + ": ");
+            response = in.nextLine().trim();
 
-            response = pipe.nextLine();
             if (response.matches(regEx)) return response;
             System.out.println("Invalid input. Does not match pattern. Try again.");
         } while (true);
     }
+
     public static void prettyHeader(String msg) {
         final int WIDTH = 60;
         int msgLength = msg.length();
@@ -101,10 +98,6 @@ public class SafeInput {
         System.out.println("*".repeat(WIDTH));
     }
 }
-
-
-
-
 
 
 
